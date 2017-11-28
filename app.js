@@ -10,15 +10,24 @@ var expressValidator = require('express-validator');
 var LocalStrategy = require('passport-local').Strategy;
 var multer = require('multer');
 var upload = multer({dest: './uploads'});
-var flash = require('connect-flash');
+// var flash = require('connect-flash');
+var flash = require('express-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+
+//added for password reset token
+var nodemailer = require('nodemailer');
+// var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcryptjs');
+var async = require('async');
+var crypto = require('crypto');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +43,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+//added for password reset token middleware
+app.use(session({ secret: 'session secret key' }));
+app.use(flash());
 
 //session
 app.use(session({
@@ -66,6 +79,7 @@ app.use(expressValidator({
 
 app.use('/', index);
 app.use('/users', users);
+//app.use('/users', profile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

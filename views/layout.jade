@@ -19,6 +19,10 @@ html(lang='en')
           ul.nav.navbar-nav
             //- li(class=(title == 'Register' ? 'active' : ''))
             li
+              a(href='/') Home Page
+            li
+              a(href='/users/profile') Profile Page
+            li
               a(href='/users/register') Register
             //- li(class=(title == 'Login' ? 'active' : ''))
             li
@@ -27,7 +31,6 @@ html(lang='en')
            li
               a(href='/users/logout') Logout
     .container
-     
      block content
      
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')

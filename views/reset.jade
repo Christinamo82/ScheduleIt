@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+    h2.page-header Reset Password
+    p Please enter the reset password and click reset button
+        if messages.error
+          .alert.alert-danger
+             div= messages.error
+        if messages.info
+          .alert.alert-info
+            div= messages.info
+        if messages.success
+          .alert.alert-success
+            div= messages.success
+    form(method = 'post', action = '/users/reset') 
+        label New Password
+        input.form-control(name = 'password', type = 'password', placeholder = 'Please enter new password')
+        .form-group
+        label Confirm Password
+        input.form-control(name = 'password2', type = 'password', placeholder = 'Please enter new password again')
+        input.btn(type = 'submit', name = 'submit', value = 'Reset Password',
+        style='margin-top: 20px;')
