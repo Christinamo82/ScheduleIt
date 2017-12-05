@@ -1,0 +1,27 @@
+extends layout
+
+block content
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        link(rel='stylesheet', href='/stylesheets/fullcalendar.css')
+    h1.page-header User's Calendar Event Page
+    body
+        #calendar
+
+        script(type='text/javascript', src='/javascripts/jquery/jquery.min.js')
+        script(type='text/javascript', src='/javascripts/fullcalendar.js')
+        script.
+            var events =  [
+                {
+                    title: 'Test 1',
+                    start: '2017-12-03 12:30:00',
+                    end: '2017-12-04 16:30:00',
+                    allDay: false // will make the time show
+                }
+            ];
+            $('#calendar').fullCalendar({
+                events: events
+            });

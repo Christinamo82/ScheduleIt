@@ -18,15 +18,20 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
+    "fullcalendar": "^3.7.0",
     "jade": "~1.11.0",
+    "jade-method-override": "^0.1.0",
+    "method-override": "^2.3.10",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.2",
+    "mongoskin": "^2.1.0",
     "morgan": "~1.9.0",
     "multer": "^1.3.0",
     "nodemailer": "^4.4.0",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
+    "save": "^2.3.1",
     "serve-favicon": "~2.4.5"
   }
 }

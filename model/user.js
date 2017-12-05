@@ -21,7 +21,19 @@ var userSchema = mongoose.Schema({
         unique: true
     },
     name:{
-        type: String,
+        type: String
+    },
+    instrument:{
+        type: String
+    },
+    exprience:{
+        type: String
+    },
+    bio:{
+        type: String
+    },
+    avatar:{
+        type: String
     },
     resetPasswordToken:{
         type: String

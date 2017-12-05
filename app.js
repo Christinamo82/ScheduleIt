@@ -19,6 +19,10 @@ var db = mongoose.connection;
 //added for password reset token
 var nodemailer = require('nodemailer');
 // var bcrypt = require('bcrypt-nodejs');
+
+//added for jade method to use for put and delete
+var methodOverride = require('method-override')
+
 var bcrypt = require('bcryptjs');
 var async = require('async');
 var crypto = require('crypto');
@@ -41,6 +45,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+//to use put and delete for jade
+app.use(methodOverride());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

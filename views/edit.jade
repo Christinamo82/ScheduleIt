@@ -1,0 +1,25 @@
+block content
+
+    h2.page-header User's profile edit
+    p Please enter the requirements then press "Update"
+        if messages.error
+          .alert.alert-danger
+             div= messages.error
+        if messages.info
+          .alert.alert-info
+            div= messages.info
+        if messages.success
+          .alert.alert-success
+            div= messages.success
+    form(method = 'put', action = '/users/profile/#{user_id}') 
+        label Instrument
+        input.form-control(name = 'instrument', type = 'text', placeholder = 'Please enter the instrument you are playing')
+        .form-group
+        label Exprience
+        input.form-control(name = 'exprience', type = 'text', placeholder = 'Please enter the number years you have with the instrument')
+        .form-group
+        label Biography
+        input.form-control(name = 'bio', type = 'text', placeholder = 'Please enter your biography')
+        input.btn(type = 'submit', name = 'submit', value = 'Update',
+        style='margin-top: 20px;')
+        

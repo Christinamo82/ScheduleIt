@@ -17,7 +17,10 @@ var async = require('async');
 var nodemailer = require('nodemailer');
 var crypto = require('crypto');
 
-//Simple get and post function for register and login
+//added for event calender 
+//connect to the mongoDB
+var db = require('mongoskin').db("localhost/testdb", { w: 0});
+db.bind('event');
 
 //source for register and login: https://www.youtube.com/watch?v=hb26tQPmPl4
 //source for reset password: http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/
@@ -78,17 +81,18 @@ router.post('/register', function(req, res, next){
       name: name,
       email: email,
       username: username,
-      password: password
-      // resetPasswordToken: String,
-      // resetPasswordExpires: Date
+      password: password,
+      instrument: "empty",
+      exprience: "empty",
+      bio: "empty"
     });
     User.createUser(newUser, function(err, user){
       if(err) throw err;
       console.log(user);
     });
 
-    res.location('/users/profile');
-    res.redirect('/users/profile');
+    // res.location('/users/profile');
+    res.redirect('/users/login');
   }
 
 
@@ -115,7 +119,11 @@ function(req, res) {
     // console.log('The input username is ' + req.body.username);
     // console.log('The input password is ' + req.body.password);
     // req.flash('sucess', 'You are now loggd in');
-    res.redirect('/users/profile');
+    // console.log(req.user._id);
+    var red_userprofile_id = req.user._id
+    console.log(red_userprofile_id);
+    // res.redirect('/users/profile');
+    res.redirect('/users/profile/'+ red_userprofile_id);
   }
     // res.redirect('/');
 
@@ -237,25 +245,84 @@ router.get('/reset/:token', function(req, res) {
 
 
 //user's profile
-router.get('/profile', function(req, res, next) {
+router.get('/profile/:id', function(req, res, next) {
   console.log("Inside get profile");
+  console.log(req.user._id);
   User.findById(req.params.id, function(err, found){
+    console.log(req.params);
     console.log(req.params.id);
     if(err){
       console.log("did not found user");
       req.flash('error', 'Cannot found user');
-      res.redirect("/");
+      return res.redirect('/');
     }
     console.log("found user");
-    res.render('profile');
-    // console.log(found);
-    // console.log(found.name);
-    // console.log(found.email);
-    // res.render('profile', {user: found});
+    console.log(req.user.username);
+    // res.redirect('/users/profile/'+ user._id);
+    // res.render('profile/:id');
+    res.render('profile', {user: found});
     // res.render('/users/profile');
     //5a1ba8a9529add1f57121d64
   });
   // res.render('profile');
+});
+
+//user's profile update(edit)
+
+router.get('/profile/:id/edit', function(req,res,next){
+  console.log("Inside get profile edit");
+  var id = req.user._id;
+  console.log(id);
+  // res.render('edit');
+  res.render('edit', {user_id: id});
+});
+
+//put method to updated user's profile after filled out the requirement from edit
+//(not executing....???)
+router.put('/profile/:id', function(req, res, next){
+  console.log("Inside put profile edit");
+  var instrument = req.body.instrument;
+  var exprience = req.body.exprience;
+  var biography = req.body.biography;
+  //{$set: newData}
+  var edit_data = {instrument: instrument, exprience: exprience, bio: biography};
+  User.findByIdAndUpdate(req.params.id, {$set: edit_data}, function(err, profile_update){
+    if(err){
+      console.log("profile update error");
+      req.flash('error', err.message);
+      return res.redirect('/');
+    }
+    console.log("profile update found user, and can be update");
+    console.log(instrument);
+    console.log(exprience);
+    console.log(biography);
+    // profile_update.instrument = instrument;
+    // profile_update.exprience = exprience;
+    // profile_update.bio = biography;
+    // profile_update.save(function(err){
+    //   if(err){
+    //     req.flash('error', 'Error when updating...');
+    //     req.redirect('/users/profile/' + req.user._id);
+    //   }
+    //   else{
+      req.flash('success', 'User profile update success');
+      res.redirect('/' + req.user._id);
+      // res.render('profile', {user: req.user});
+      // }
+    });
+    // res.render('edit', {user_id: profile_update});
+
+
+});
+  // var id = req.user._id;
+  // res.render('profile', {user: req.user});
+// });
+
+
+//event calander
+router.get('/profile/:id/event', function(req, res, next) {
+  console.log("Inside get event");
+  res.render('event');
 });
 
 //logout

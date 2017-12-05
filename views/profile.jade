@@ -2,13 +2,30 @@ extends layout
 
 block content
   h1.page-header Profile page
-  p User's profile page
+  p #{user.username}'s profile page
       if messages.error
         .alert.alert-danger
           div= messages.error
       if messages.info
-        .alert.alert-info
+        .alert.alert-infos
           div= messages.info
       if messages.success
         .alert.alert-success
           div= messages.success
+  p Name of the user: #{user.name}
+  p #{user.name}'s email: #{user.email}
+  p Username: #{user.username}
+  if(user.instrument == "empty")
+    p Instrument: #{user.name} has not select a instrument 
+  else
+    p Instrument: #{user.instrument}
+  if(user.exprience == "empty")
+    p Exprience: #{user.name}'s exprience is emtpy
+  else
+    p Exprience: #{user.expriecne} years
+  if(user.bio == "empty")
+    p Biography: #{user.name}'s biography is empty
+  else
+    p Biography: #{user.bio}
+  a.btn.btn-link(href='/users/profile/#{user._id}/edit', style='margin-top: 20px;') Edit Profile
+  a.btn.btn-link(href='/users/profile/#{user._id}/event', style='margin-top: 20px;') Event
