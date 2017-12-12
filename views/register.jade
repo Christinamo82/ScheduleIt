@@ -4,29 +4,38 @@
 //- enctype = 'multipart/form-data'
 
 extends layout
-
 block content
-    h2.page-header Register
-    p Please enter the requirements then press "Register"
+    h2.page-reg-h Register
+    p.page-reg-p Please enter the requirements then press "Register"
     ul.errors
         if errors
             each error, i in errors
                 li.alert.alert-danger #{error.msg}
     form(method = 'post', action = '/users/register') 
         .form-group
-        label Name
-        input.form-control(name = 'name', type = 'text', placeholder = 'Please enter name')
+        label.page-reg-text Name
+        br
+        input.page-reg(name = 'name', style='width: 350px;',type = 'text', placeholder = 'Please enter name')
+        br
         .form-group
-        label E-mail
-        input.form-control(name = 'email', type = 'email', placeholder = 'Please enter e-mail')
+        label.page-reg-text E-mail
+        br
+        input.page-reg(name = 'email', style='width: 350px;',type = 'email', placeholder = 'Please enter e-mail')
+        br
         .form-group
-        label Username
-        input.form-control(name = 'username', type = 'text', placeholder = 'Please enter username')
+        label.page-reg-text Username
+        br
+        input.page-reg(name = 'username', style='width: 350px;',type = 'text', placeholder = 'Please enter username')
+        br
         .form-group
-        label Password
-        input.form-control(name = 'password', type = 'password', placeholder = 'Please enter password')
+        label.page-reg-text Password
+        br
+        input.page-reg(name = 'password', style='width: 350px;',type = 'password', placeholder = 'Please enter password')
+        br
         .form-group
-        label Confirm Password
-        input.form-control(name = 'password2', type = 'password', placeholder = 'Please enter password')
-        input.btn(type = 'submit', name = 'submit', value = 'Register',
-        style='margin-top: 20px;')
+        label.page-reg-text Confirm Password
+        br
+        input.page-reg(name = 'password2', style='width: 350px;',type = 'password', placeholder = 'Please enter password')
+        br
+        input.page-reg-btn.btn(type = 'submit', name = 'submit', value = 'Register',
+        style='margin-top: 20px; color: #21ABB2;')

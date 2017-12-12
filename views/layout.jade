@@ -4,8 +4,8 @@ html(lang='en')
     title Welcome
     link(href='/stylesheets/bootstrap.css', rel='stylesheet')
     link(href='/stylesheets/style.css', rel='stylesheet')
-  body
-    .navbar.navbar-default(role='navigation')
+  body.site.site-background
+    .navbar.navbar-default(role='navigation').site-bar
       .container
         .navbar-header
           button.navbar-toggle(type='button', data-toggle='collapse', 
@@ -21,7 +21,7 @@ html(lang='en')
             li
               a(href='/') Home Page
             li
-              a(href='/users/profile') Profile Page
+              a(href='/users/profile/5a264f5cbb06b3346cbbf0aa') Profile Page
 
             //- li
             //-   a(href='/users/event') Event Page

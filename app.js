@@ -21,7 +21,10 @@ var nodemailer = require('nodemailer');
 // var bcrypt = require('bcrypt-nodejs');
 
 //added for jade method to use for put and delete
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
+// var jadeOverride = require('jade-method-override');
+// app.use(express.methodOverride())
+// require('jade-method-override').express(app)
 
 var bcrypt = require('bcryptjs');
 var async = require('async');
@@ -47,7 +50,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //to use put and delete for jade
-app.use(methodOverride());
+app.use(methodOverride('_method'));
+// app.use(methodOverride());
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 

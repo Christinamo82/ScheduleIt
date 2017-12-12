@@ -1,7 +1,8 @@
+//- '/users/profile/#{user_id}'
+extends layout
 block content
-
-    h2.page-header User's profile edit
-    p Please enter the requirements then press "Update"
+    h2.page-edit-h User's profile edit
+    p.page-edit-p Please enter the requirements then press "Update"
         if messages.error
           .alert.alert-danger
              div= messages.error
@@ -11,15 +12,21 @@ block content
         if messages.success
           .alert.alert-success
             div= messages.success
-    form(method = 'put', action = '/users/profile/#{user_id}') 
-        label Instrument
-        input.form-control(name = 'instrument', type = 'text', placeholder = 'Please enter the instrument you are playing')
+    form(method = 'post', action = '/users/profile/#{user_id}')
+        label.page-edit-text Instrument
+        br
+        input.page-edit(name = 'instrument', style='width: 350px;', type = 'text', placeholder = 'Please enter the instrument you are playing')
+        br
         .form-group
-        label Exprience
-        input.form-control(name = 'exprience', type = 'text', placeholder = 'Please enter the number years you have with the instrument')
+        label.page-edit-text Exprience
+        br
+        input.page-edit(name = 'exprience', style='width: 350px;', type = 'text', placeholder = 'Please enter the number years you have with the instrument')
+        br
         .form-group
-        label Biography
-        input.form-control(name = 'bio', type = 'text', placeholder = 'Please enter your biography')
-        input.btn(type = 'submit', name = 'submit', value = 'Update',
-        style='margin-top: 20px;')
+        label.page-edit-text Biography
+        br
+        input.page-edit(name = 'biography', style='width: 350px; height: 250px;', type = 'text', placeholder = 'Please enter your biography')
+        br
+        input.page-edit-btn.btn(type = 'submit', name = 'submit', value = 'Update',
+        style='margin-top: 20px; #21ABB2;')
         

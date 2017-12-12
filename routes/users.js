@@ -279,13 +279,40 @@ router.get('/profile/:id/edit', function(req,res,next){
 
 //put method to updated user's profile after filled out the requirement from edit
 //(not executing....???)
-router.put('/profile/:id', function(req, res, next){
+router.post('/profile/:id/', function(req, res, next){
   console.log("Inside put profile edit");
   var instrument = req.body.instrument;
   var exprience = req.body.exprience;
   var biography = req.body.biography;
+
+  if(instrument != "undefined" && instrument != ""){
+    console.log("Inside instrument not empty");
+    instrument = req.body.instrument;
+  }
+  else{
+    console.log("Inside instrument empty");
+    instrument = req.params.id.instrument;
+  }
+
+  if(exprience != "undefined" && exprience != ""){
+    console.log("Inside exprience not empty");
+    exprience = req.body.exprience;
+  }
+  else{
+    console.log("Inside exprience empty");
+    exprience = req.params.id.exprience;
+  }
+
+  if(biography != "undefined" && biography != ""){
+    console.log("Inside biography not empty");    
+    biography = req.body.biography
+  }
+  else{
+    console.log("Inside biography empty");  
+    biography = req.params.id.bio;
+  }
   //{$set: newData}
-  var edit_data = {instrument: instrument, exprience: exprience, bio: biography};
+  var edit_data = {exprience: exprience, instrument: instrument, bio: biography};
   User.findByIdAndUpdate(req.params.id, {$set: edit_data}, function(err, profile_update){
     if(err){
       console.log("profile update error");
@@ -293,8 +320,8 @@ router.put('/profile/:id', function(req, res, next){
       return res.redirect('/');
     }
     console.log("profile update found user, and can be update");
-    console.log(instrument);
-    console.log(exprience);
+    console.log(profile_update.instrument);
+    console.log(profile_update.exprience);
     console.log(biography);
     // profile_update.instrument = instrument;
     // profile_update.exprience = exprience;
@@ -306,7 +333,7 @@ router.put('/profile/:id', function(req, res, next){
     //   }
     //   else{
       req.flash('success', 'User profile update success');
-      res.redirect('/' + req.user._id);
+      res.redirect('/users/profile/'+ profile_update._id);
       // res.render('profile', {user: req.user});
       // }
     });

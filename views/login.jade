@@ -2,8 +2,8 @@ extends layout
 
 block content
 
-    h2.page-header Login
-    p Please enter the requirements then press "Login"
+    h2.page-login-h Login
+    p.page-login-p Please enter the requirements then press "Login"
         if messages.error
           .alert.alert-danger
              div= messages.error
@@ -13,12 +13,17 @@ block content
         if messages.success
           .alert.alert-success
             div= messages.success
-    form(method = 'post', action = '/users/login') 
-        label Username
-        input.form-control(name = 'username', type = 'text', placeholder = 'Please enter username')
-        .form-group
-        label Password
-        input.form-control(name = 'password', type = 'password', placeholder = 'Please enter password')
-        input.btn(type = 'submit', name = 'submit', value = 'Login',
-        style='margin-top: 20px;')
-        a.btn.btn-link(href='/users/forgot', style='margin-top: 20px;') Forgot Password?
+    form(method = 'post', action = '/users/login')
+        .form-group.col-md12
+        label.page-login-text Username 
+        br
+        input.page-login(name = 'username', style='width: 350px;', type = 'text', placeholder = 'Please enter username')
+        br
+        .form-group.col-md12
+        label.page-login-text Password
+        br
+        input.page-login(name = 'password', style='width: 350px;',type = 'password', placeholder = 'Please enter password')
+        br
+        input.page-login-btn.btn(type = 'submit', name = 'submit', value = 'Login',
+        style='margin-top: 20px; color: #21ABB2;')
+        a.btn.btn-link(href='/users/forgot', style='margin-top: 20px; color: #21ABB2;') Forgot Password?

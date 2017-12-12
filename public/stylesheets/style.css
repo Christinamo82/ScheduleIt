@@ -6,3 +6,124 @@
 a {
   color: #00B7FF;
 }
+
+.page-login {
+  margin-left: 420px;
+  margin-right: 20px;
+}
+
+.page-login-text{
+  margin-left: 530px;
+  color: #000000;
+}
+
+.page-login-p{
+  margin-left: 420px;
+}
+
+.page-login-h{
+  margin-left: 530px;
+  margin-top: 80px;
+  color: #000000;
+}
+
+.page-login-btn{
+  margin-left: 480px;
+}
+
+.page-reg{
+  margin-left: 420px;
+  margin-right: 20px;
+}
+
+.page-reg-text{
+  margin-left: 550px;
+  color: #000000;
+}
+
+.page-reg-btn{
+  margin-left: 560px;
+}
+.page-reg-p{
+  margin-left: 420px;
+}
+.page-reg-h{
+  margin-left: 530px;
+  margin-top: 80px;
+  color: #000000;
+}
+
+.page-forgot{
+  margin-left: 420px;
+  margin-right: 20px;
+}
+
+.page-forgot-text{
+  margin-left: 550px;
+  color: #000000;
+}
+
+.page-forgot-btn{
+  margin-left: 560px;
+}
+
+.page-forgot-p{
+  margin-left: 420px;
+}
+
+.page-forgot-h{
+  margin-left: 460px;
+  margin-top: 80px;
+  color: #000000;
+}
+
+.page-edit{
+  margin-left: 420px;
+  margin-right: 20px;
+}
+
+.page-edit-text{
+  margin-left: 550px;
+  color: #000000;
+}
+
+.page-edit-btn{
+  margin-left: 560px;
+}
+
+.page-edit-p{
+  margin-left: 420px;
+}
+
+.page-edit-h{
+  margin-left: 460px;
+  margin-top: 80px;
+  color: #000000;
+}
+
+.page-profile-text{
+  color: #000000;
+}
+
+.site {
+  background-image: url(/images/1.png);
+    /* background image from http://gahag.net/010282-wave-music/ */
+  background-size: cover;
+}
+
+.site-background {
+content: "";
+display: block;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #3C7BA2;
+opacity: 0.7;
+z-index: 0;
+}
+
+.site-bar{
+  background-color: #B9DEF5;
+}
