@@ -14,26 +14,25 @@ html(lang='en')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Project Name
+          a.navbar-brand(href='#') Home Page
         .navbar-collapse.collapse
           ul.nav.navbar-nav
             //- li(class=(title == 'Register' ? 'active' : ''))
-            li
-              a(href='/') Home Page
-            li
-              a(href='/users/profile/5a264f5cbb06b3346cbbf0aa') Profile Page
-
-            //- li
-            //-   a(href='/users/event') Event Page
-            li
-              a(href='/users/register') Register
-            //- li(class=(title == 'Login' ? 'active' : ''))
-            li
-              a(href='/users/login') Login
+            //-li
+              //-a(href='/') Home Page
+            if isLogin
+              li
+                a(href='/users/profile/#{user._id}') Profile Page
+            if !isLogin
+              li
+                a(href='/users/register') Register
+              li
+                a(href='/users/login') Login
             
           ul.nav.navbar-nav.navbar-right
+          if isLogin
            li
-              a(href='/users/logout') Logout
+            a(href='/users/logout') Logout
     .container
      block content
      

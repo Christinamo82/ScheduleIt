@@ -89,6 +89,12 @@ app.use(expressValidator({
   }
 }));
 
+//local variable for layout(if login, login and register won't show on top of the page)
+app.get('*', function(req, res, next){
+  res.locals.isLogin = req.user || null;
+  next();
+});
+
 app.use('/', index);
 app.use('/users', users);
 //app.use('/users', profile);
