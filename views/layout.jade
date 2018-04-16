@@ -1,40 +1,111 @@
 doctype html
 html(lang='en')
   head
-    title Welcome
+    title Project Name
     link(href='/stylesheets/bootstrap.css', rel='stylesheet')
     link(href='/stylesheets/style.css', rel='stylesheet')
+ 
+    //-  <!-- Stylesheets -->
+    link(rel="stylesheet" href="/global/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/global/css/bootstrap-extend.min.css")
+    //- link(rel="stylesheet" href="/assets/css/site.css")
+    //- <!-- Plugins -->
+    link(rel="stylesheet" href="/global/vendor/animsition/animsition.css")
+    link(rel="stylesheet" href="/global/vendor/asscrollable/asScrollable.css")
+    link(rel="stylesheet" href="/global/vendor/switchery/switchery.css")
+    link(rel="stylesheet" href="/global/vendor/intro-js/introjs.css")
+    link(rel="stylesheet" href="/global/vendor/slidepanel/slidePanel.css")
+    link(rel="stylesheet" href="/global/vendor/flag-icon-css/flag-icon.css")
+    link(rel="stylesheet" href="/global/vendor/waves/waves.css")
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet")
+    link(rel="stylesheet" href="/global/vendor/toastr/toastr.css")
+    link(rel="stylesheet" href="/assets/examples/css/advanced/toastr.css")
+    //- <!-- Fonts -->
+    link(rel="stylesheet" href="/global/fonts/material-design/material-design.min.css")
+    link(rel="stylesheet" href="/global/fonts/brand-icons/brand-icons.min.css")
+    link(href="https://fonts.googleapis.com/css?family=Poiret+One|Raleway" rel="stylesheet")
+
+    link(href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
+
+
+ 
   body.site.site-background
-    .navbar.navbar-default(role='navigation').site-bar
-      .container
-        .navbar-header
-          button.navbar-toggle(type='button', data-toggle='collapse', 
-          data-target='.navbar-collapse')
+    .navbar.navbar-default(role='navigation').navbar-inverse
+      div.container
+        div.navbar-header
+          button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar-full", aria-expanded="false")
             span.sr-only Toggle navigation
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#') Home Page
+          a.navbar-brand(href="/") Project Name
         .navbar-collapse.collapse
           ul.nav.navbar-nav
-            //- li(class=(title == 'Register' ? 'active' : ''))
-            //-li
-              //-a(href='/') Home Page
             if isLogin
               li
-                a(href='/users/profile/#{user._id}') Profile Page
+                a.navbar-brand(href='/users/profile/#{user._id}') Profile Page
+                //- a(href='/users/profile/5a264f5cbb06b3346cbbf0aa') Profile Page
             if !isLogin
               li
-                a(href='/users/register') Register
+                a.site-text(href='/users/register') Register
               li
-                a(href='/users/login') Login
+                a.site-text(href='/users/login') Login
+              li
+                a.site-text(href='/users/event') Event
             
           ul.nav.navbar-nav.navbar-right
           if isLogin
            li
             a(href='/users/logout') Logout
     .container
-     block content
+    block content
+
+            
+
+    //- .navbar.navbar-default(role='navigation').site-bar
+    //-   .container
+    //-     .navbar-header
+    //-       button.navbar-toggle(type='button', data-toggle='collapse', 
+    //-       data-target='.navbar-collapse')
+    //-         span.sr-only Toggle navigation
+    //-         span.icon-bar
+    //-         span.icon-bar
+    //-         span.icon-bar
+    //-       a.navbar-brand(href='#') Home Page
+    //-     .navbar-collapse.collapse
+    //-       ul.nav.navbar-nav
+    //-         li
+    //-           a(href='#') Home Page
+    //-         //- li(class=(title == 'Register' ? 'active' : ''))
+    //-         //-li
+    //-           //-a(href='/') Home Page
+    //-         if isLogin
+    //-           li
+    //-             a(href='/users/profile/#{user._id}') Profile Page
+    //-             //- a(href='/users/profile/5a264f5cbb06b3346cbbf0aa') Profile Page
+    //-         if !isLogin
+    //-           li
+    //-             a(href='/users/register') Register
+    //-           li
+    //-             a(href='/users/login') Login
+    //-           li
+    //-             a(href='/users/event') Event
+            
+    //-       ul.nav.navbar-nav.navbar-right
+    //-       if isLogin
+    //-        li
+    //-         a(href='/users/logout') Logout
+    //- .container
+    //-  block content
      
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
     script(src='javascripts/bootstrap.js')
+
+    script(src="https://code.jquery.com/jquery-1.9.1.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js")
+    script(src="/global/vendor/breakpoints/breakpoints.js")
+
+    script(src="/javascripts/ejs.js")
+    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js")
+    script(src="//code.jquery.com/jquery-1.11.1.min.js")

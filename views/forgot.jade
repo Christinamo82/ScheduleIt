@@ -1,22 +1,23 @@
 extends layout
 
 block content
-
-    h2.page-forgot-h Forgot Password
-    p.page-forgot-p A password reset link will be sent to your email
-        if messages.error
-          .alert.alert-danger
-             div= messages.error
-        if messages.info
-          .alert.alert-info
-            div= messages.info
-        if messages.success
-          .alert.alert-success
-            div= messages.success
-    form(method = 'post', action = '/users/forgot') 
-        label.page-forgot-text E-mail
-        br
-        input.page-forgot(name = 'email', style='width: 350px;', type = 'email', placeholder = 'Please enter email to reset password')
-        br
-        input.page-forgot-btn.btn(type = 'submit', name = 'submit', value = 'Submit',
-        style='margin-top: 20px;color: #21ABB2;')
+  if messages.error
+    .alert.alert-danger
+      div= messages.error
+  if messages.info
+    .alert.alert-info
+      div= messages.info
+  if messages.success
+    .alert.alert-success
+      div= messages.success
+  include forgetForm.html
+    
+    
+    
+//- form(align = 'center', method = 'post', action = '/users/forgot') 
+//-     label.page-forgot-text E-mail
+//-     br
+//-     input(name = 'email', style='width: 350px;', type = 'email', placeholder = 'Please enter email to reset password')
+//-     br
+//-     input.btn(type = 'submit', name = 'submit', value = 'Submit',
+//-     style='margin-top: 20px;color: #21ABB2;')

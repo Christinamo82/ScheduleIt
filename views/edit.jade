@@ -1,6 +1,8 @@
 //- '/users/profile/#{user_id}'
 extends layout
 block content
+    //- head.
+    //-   <h2>User's profile edit</h2>
     h2.page-edit-h User's profile edit
     p.page-edit-p Please enter the requirements then press "Update"
         if messages.error
@@ -12,21 +14,26 @@ block content
         if messages.success
           .alert.alert-success
             div= messages.success
-    form(method = 'post', action = '/users/profile/#{user_id}')
+    form(align = 'center', method = 'post', action = '/users/profile/#{user_id}')
+        .form-group
+        label.page-edit-text Upload Profile Image
+        br
+        input(name = 'profileImage', type = 'file')
         label.page-edit-text Instrument
         br
-        input.page-edit(name = 'instrument', style='width: 350px;', type = 'text', placeholder = 'Please enter the instrument you are playing')
+        input(name = 'instrument', style='width: 350px;', type = 'text', placeholder = 'Please enter the instrument you are playing')
         br
         .form-group
         label.page-edit-text Exprience
         br
-        input.page-edit(name = 'exprience', style='width: 350px;', type = 'text', placeholder = 'Please enter the number years you have with the instrument')
+        input(name = 'exprience', style='width: 350px;', type = 'text', placeholder = 'Please enter the number years you have with the instrument')
         br
         .form-group
         label.page-edit-text Biography
         br
-        input.page-edit(name = 'biography', style='width: 350px; height: 250px;', type = 'text', placeholder = 'Please enter your biography')
+        textarea(name = 'biography', style='width: 350px; height: 250px;', type = 'text', placeholder = 'Please enter your biography')
         br
-        input.page-edit-btn.btn(type = 'submit', name = 'submit', value = 'Update',
+        input.btn(type = 'submit', name = 'op', value = 'Update',
         style='margin-top: 20px; #21ABB2;')
+        input.btn(type = 'submit', name = 'op', value = 'Cancel Edit', style='margin-left: 10px; margin-top: 20px; #21ABB2;')
         

@@ -1,0 +1,22 @@
+/* .page-login:before {
+  background-image: url("../../images/login.jpg");
+} */
+
+.page-login form {
+  width: 500px;
+  margin: 30px 0; }
+  .page-login form a {
+    margin-left: 20px; }
+
+.page-login .page-content{
+  background-color: #AACEE2;
+}
+    /* .form-control{
+      width: 350px;
+    } */
+
+@media (max-width: 767px) {
+  .page-login form {
+    width: auto;
+  }
+}

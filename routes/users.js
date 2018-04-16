@@ -4,9 +4,12 @@
 var express = require('express');
 var router = express.Router();
 
+//multer file upload
+var multer = require('multer');
+var upload = multer({dest: './uploads'});
+
 //access to the model/user.js user object
 var User = require('../model/user');
-
 
 //passport
 var passport = require('passport');
@@ -19,8 +22,8 @@ var crypto = require('crypto');
 
 //added for event calender 
 //connect to the mongoDB
-var db = require('mongoskin').db("localhost/testdb", { w: 0});
-db.bind('event');
+// var db = require('mongoskin').db("localhost/testdb", { w: 0});
+// db.bind('event');
 
 //source for register and login: https://www.youtube.com/watch?v=hb26tQPmPl4
 //source for reset password: http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/
@@ -123,6 +126,7 @@ function(req, res) {
     var red_userprofile_id = req.user._id
     console.log(red_userprofile_id);
     // res.redirect('/users/profile');
+    // res.render('prifle', {user: req.user._id});
     res.redirect('/users/profile/'+ red_userprofile_id);
   }
     // res.redirect('/');
@@ -202,12 +206,12 @@ router.post('/forgot', function(req, res, next) {
         service: 'Gmail', 
         auth: {
           user: 'cs242cmo2finalproject@gmail.com',
-          pass: 'Cm8242766'
+          pass: process.env.GMAILPW
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'cs242cmo2finalproject@gmail.com',
+        from: 'cs242finalproject@gmail.com',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this to reset the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -226,7 +230,7 @@ router.post('/forgot', function(req, res, next) {
   });
 });
 
-//reset password page
+//get reset password page
 router.get('/reset/:token', function(req, res) {
   req.checkBody('password', 'Password field cannot be empty').notEmpty();
   req.checkBody('password2', 'Confirm Password field cannot be empty').notEmpty();
@@ -243,9 +247,61 @@ router.get('/reset/:token', function(req, res) {
   });
 });
 
+//update users reset password
+router.post('/reset/:token', function(req, res) {
+  async.waterfall([
+    function(done) {
+      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        if (!user) {
+          req.flash('error', 'Password reset token is invalid or has expired.');
+          return res.redirect('back');
+        }
 
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        user.save(function(err) {
+          req.logIn(user, function(err) {
+            done(err, user);
+          });
+        });
+      });
+    },
+    function(user, done) {
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: 'cs242cmo2finalproject@gmail.com',
+          pass: process.env.GMAILPW
+        }
+      });
+      var mailOptions = {
+        to: user.email,
+        from: 'cs242cmo2finalproject@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Hello,\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      };
+      smtpTransport.sendMail(mailOptions, function(err) {
+        req.flash('success', 'Success! Your password has been changed.');
+        done(err);
+      });
+    }
+  ], function(err) {
+    res.redirect('/');
+  });
+});
+
+//to check if is login
+function ensureAuthenticated(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect('/users/login');
+}
 //user's profile
-router.get('/profile/:id', function(req, res, next) {
+router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
   console.log("Inside get profile");
   console.log(req.user._id);
   User.findById(req.params.id, function(err, found){
@@ -260,6 +316,7 @@ router.get('/profile/:id', function(req, res, next) {
     console.log(req.user.username);
     // res.redirect('/users/profile/'+ user._id);
     // res.render('profile/:id');
+    // console.log(found.username);
     res.render('profile', {user: found});
     // res.render('/users/profile');
     //5a1ba8a9529add1f57121d64
@@ -269,18 +326,25 @@ router.get('/profile/:id', function(req, res, next) {
 
 //user's profile update(edit)
 
-router.get('/profile/:id/edit', function(req,res,next){
+router.get('/profile/:id/edit', ensureAuthenticated, function(req,res,next){
   console.log("Inside get profile edit");
   var id = req.user._id;
   console.log(id);
   // res.render('edit');
-  res.render('edit', {user_id: id});
+  res.render('edit', {user: req.user});
 });
 
 //put method to updated user's profile after filled out the requirement from edit
 //(not executing....???)
-router.post('/profile/:id/', function(req, res, next){
+router.post('/profile/:id/', ensureAuthenticated, upload.single('profileImage'), function(req, res, next){
   console.log("Inside put profile edit");
+  console.log("user is: " + req.user.name);
+  if(req.file){
+    var profileImg = req.file.filename;
+  }
+  if(req.body.op == 'Cancel Edit'){
+    return res.redirect('/users/profile/'+ req.user._id);
+  }
   var instrument = req.body.instrument;
   var exprience = req.body.exprience;
   var biography = req.body.biography;
@@ -313,16 +377,19 @@ router.post('/profile/:id/', function(req, res, next){
   }
   //{$set: newData}
   var edit_data = {exprience: exprience, instrument: instrument, bio: biography};
-  User.findByIdAndUpdate(req.params.id, {$set: edit_data}, function(err, profile_update){
+  console.log("req.params.id is: " + req.params.id);
+  User.findByIdAndUpdate(req.user._id, {$set: edit_data}, function(err, profile_update){
     if(err){
+      console.log("profile update error user " + req.user.name);
       console.log("profile update error");
       req.flash('error', err.message);
       return res.redirect('/');
+      // res.redirect('/users/profile/'+ req.user._id);
     }
     console.log("profile update found user, and can be update");
-    console.log(profile_update.instrument);
-    console.log(profile_update.exprience);
-    console.log(biography);
+    // console.log(profile_update.instrument);
+    // console.log(profile_update.exprience);
+    // console.log(biography);
     // profile_update.instrument = instrument;
     // profile_update.exprience = exprience;
     // profile_update.bio = biography;
@@ -333,7 +400,7 @@ router.post('/profile/:id/', function(req, res, next){
     //   }
     //   else{
       req.flash('success', 'User profile update success');
-      res.redirect('/users/profile/'+ profile_update._id);
+      res.redirect('/users/profile/'+ req.user._id);
       // res.render('profile', {user: req.user});
       // }
     });
@@ -346,9 +413,24 @@ router.post('/profile/:id/', function(req, res, next){
 // });
 
 
+
 //event calander
 router.get('/profile/:id/event', function(req, res, next) {
   console.log("Inside get event");
+  console.log(req.user._id);
+  // res.render('event', {user: req.user});
+  res.render('event');
+});
+
+// router.get('/profile/:id/edit', function(req,res,next){
+//   console.log("Inside get profile edit");
+//   var id = req.user._id;
+//   console.log(id);
+//   res.render('edit', {user: req.user});
+// });
+
+router.get('/event', function(req, res,next){
+  console.log("event html jade check");
   res.render('event');
 });
 

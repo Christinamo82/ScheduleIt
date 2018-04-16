@@ -40,6 +40,10 @@ var userSchema = mongoose.Schema({
     },
     resetPasswordExpires:{
         type: Date
+    },
+    google: {
+        oauthToken: String,
+        
     }
 });
 

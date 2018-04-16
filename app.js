@@ -22,9 +22,11 @@ var nodemailer = require('nodemailer');
 
 //added for jade method to use for put and delete
 var methodOverride = require('method-override');
-// var jadeOverride = require('jade-method-override');
-// app.use(express.methodOverride())
-// require('jade-method-override').express(app)
+var jadeOverride = require('jade-method-override');
+// app.use(express.methodOverride());
+// require('jade-method-override').express(app);
+// const ejs = require('ejs');
+var engines = require('consolidate');
 
 var bcrypt = require('bcryptjs');
 var async = require('async');
@@ -35,10 +37,14 @@ var users = require('./routes/users');
 
 var app = express();
 
+//new added
+app.engine('jade', engines.jade);
+app.engine('ejs', engines.ejs);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+// app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -46,7 +52,7 @@ app.use(logger('dev'));
 
 // BodyParser Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //to use put and delete for jade
