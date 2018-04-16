@@ -415,12 +415,12 @@ router.post('/profile/:id/', ensureAuthenticated, upload.single('profileImage'),
 
 
 //event calander
-router.get('/profile/:id/event', function(req, res, next) {
-  console.log("Inside get event");
-  console.log(req.user._id);
-  // res.render('event', {user: req.user});
-  res.render('event');
-});
+// router.get('/profile/:id/event', function(req, res, next) {
+//   console.log("Inside get event");
+//   console.log(req.user._id);
+//   // res.render('event', {user: req.user});
+//   res.render('event');
+// });
 
 // router.get('/profile/:id/edit', function(req,res,next){
 //   console.log("Inside get profile edit");
@@ -429,10 +429,10 @@ router.get('/profile/:id/event', function(req, res, next) {
 //   res.render('edit', {user: req.user});
 // });
 
-router.get('/event', function(req, res,next){
-  console.log("event html jade check");
-  res.render('event');
-});
+// router.get('/event', function(req, res,next){
+//   console.log("event html jade check");
+//   res.render('event');
+// });
 
 //logout
 router.get('/logout', function(req, res, next) {
