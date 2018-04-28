@@ -10,6 +10,7 @@ var expressValidator = require('express-validator');
 var LocalStrategy = require('passport-local').Strategy;
 var multer = require('multer');
 var upload = multer({dest: './uploads'});
+// var fileUpload = require('express-fileupload');
 // var flash = require('connect-flash');
 var flash = require('express-flash');
 var mongo = require('mongodb');
@@ -32,23 +33,23 @@ var bcrypt = require('bcryptjs');
 var async = require('async');
 var crypto = require('crypto');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+// var index = require('./routes/index');
+// var users = require('./routes/users');
 
 var app = express();
 
-//new added
-app.engine('jade', engines.jade);
-app.engine('ejs', engines.ejs);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+//new added
+app.engine('jade', engines.jade);
 app.set('view engine', 'jade');
 // app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
+// app.use(fileUpload);
 
 // BodyParser Middleware
 app.use(bodyParser.json());
@@ -59,23 +60,7 @@ app.use(cookieParser());
 app.use(methodOverride('_method'));
 // app.use(methodOverride());
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
-//added for password reset token middleware
-app.use(session({ secret: 'session secret key' }));
-app.use(flash());
-
-//session
-app.use(session({
-  secret: 'secret',
-  saveUninitialized: true,
-  resave: true
-}));
-
-//passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 //validator
 app.use(expressValidator({
@@ -95,15 +80,32 @@ app.use(expressValidator({
   }
 }));
 
+//added for password reset token middleware
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
 //local variable for layout(if login, login and register won't show on top of the page)
 app.get('*', function(req, res, next){
   res.locals.isLogin = req.user || null;
   next();
 });
 
-app.use('/', index);
-app.use('/users', users);
+// app.use('/', index);
+// app.use('/users', users);
 //app.use('/users', profile);
+
+/**
+ * Primary app routes.
+ */
+require('./routes')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

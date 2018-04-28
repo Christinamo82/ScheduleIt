@@ -1,6 +1,8 @@
 link#bootstrap-css(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css', rel='stylesheet')
 script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js')
 script(src='//code.jquery.com/jquery-1.11.1.min.js')
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js')
 link(href='/stylesheets/profileCardStyle.css', ,='', rel='stylesheet')
 link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css')
 script(src='/javascripts/ejs.js')
@@ -9,7 +11,8 @@ script(src='/javascripts/ejs.js')
     ul#accordion.accordion
       li
         .col.col_4.iamgurdeep-pic
-          img.img-responsive.userImg(alt='userImg......', src='https://r.hswstatic.com/w_907/gif/stradivarius-violins-sysk.jpg', style='width:100%; height: 100%')
+          img.img-responsive.userImg(alt='userImg......', src='#{user.avatar}', 
+          style='width:300px; height: 300px')
           .edit-pic
             a.fa.fa-facebook(href='#')
             a.fa.fa-instagram(href='#')
@@ -17,7 +20,9 @@ script(src='/javascripts/ejs.js')
           .username
             h2 #{user.name}
             a.fa.fa-map-marker
-            a.faEdit.fa-edit.editCard(href='/users/profile/#{user._id}/edit')
+            a.faEdit.fa-edit.editCard(href='/profile/#{user._id}/edit')
+            a.btn(type = 'submit', name = 'profileImg', value = 'Edit Profile Picture',
+            href = '/profile/#{user._id}/avatar_edit')
       li
         .profileInfo
           .profileUserName Username: #{user.username}
@@ -38,39 +43,26 @@ script(src='/javascripts/ejs.js')
   label(for='tab4') content4
   section#content1
     p
-      | Bacon ipsum dolor sit amet beef venison beef ribs kielbasa. Sausage pig leberkas, t-bone sirloin shoulder bresaola. Frankfurter rump porchetta ham. Pork belly prosciutto brisket meatloaf short ribs.
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
-    p
-      | Content1
+      | google sing in image check
+      br
+      //- body(ng-app='app', ng-controller='ctrl')
+      //-   img(src='/images/googleImg.png', ng-click='login()', name = 'googleUrl', value = 'getUrl', style="width: 300px; height: 100px") 
+      button.googleBtn(onclick="window.open('#{authUrl}');")
+      //- button.googleBtn(href="#{authUrl}")
+
   section#content2
     p
       | Content2
-    .ccc
-      | div here
+    div.viedosUpload
+      .col-xl-4.col-md-6
+        .example-wrap
+          h4.example-title Your so fresh input file — Default version
+          .example
+            input#input-file-now(type='file', data-plugin='dropify', data-default-file='')
+  // End Example Default
+
   section#content3
-    p
-      | Content3
+    include calendar.html
   section#content4
     p
       | Content4

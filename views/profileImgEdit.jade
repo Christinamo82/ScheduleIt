@@ -1,0 +1,21 @@
+extends layout
+block content
+    
+    h2.page-edit-h User's profile edit
+        if messages.error
+            .alert.alert-danger
+                div= messages.error
+        if messages.info
+            .alert.alert-info
+                div= messages.info
+        if messages.success
+            .alert.alert-success
+                div= messages.success
+    form(align = 'center', method = 'post', action = '/profile/#{user_id}/avatar', enctype="multipart/form-data")
+        .form-group
+        label.page-edit-text Upload Profile Image
+        br
+        input(name = 'profileImage', type = 'file')
+        input.btn(type = 'submit', name = 'updateImg', value = 'Update Picture',
+        style='margin-top: 20px; #21ABB2;')
+        input.btn(type = 'submit', name = 'updateImg', value = 'Cancel Update Picture', style='margin-left: 10px; margin-top: 20px; #21ABB2;')

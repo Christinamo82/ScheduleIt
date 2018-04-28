@@ -381,7 +381,7 @@ previous button's border...
 {
     font-size: .9em;
 
-    margin-top: 2px;
+    margin-top: 0px;
 }
 
 /* jqui themed */
@@ -1073,6 +1073,8 @@ a.fc-more:hover
     /* so dragged elements can be above the view's main element */
     position: relative;
     z-index: 1;
+/*    width: 600px;
+    height: 500px;*/
 }
 
 /* BasicView
@@ -1088,7 +1090,7 @@ a.fc-more:hover
 
 .fc-basic-view .fc-body .fc-row
 {
-    min-height: 4em;
+    min-height: 6em;
     /* ensure that all rows are at least this tall */
 }
 

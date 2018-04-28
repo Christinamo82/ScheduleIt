@@ -41,9 +41,15 @@ var userSchema = mongoose.Schema({
     resetPasswordExpires:{
         type: Date
     },
+    socialMedia:{
+        socialFacebook: String,
+        socialTwitter: String,
+        socialInstagram: String
+    },
     google: {
-        oauthToken: String,
-        
+        accessToken: String,
+        refreshToken: String,
+        expiredToken: Date
     }
 });
 

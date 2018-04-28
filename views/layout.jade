@@ -39,23 +39,22 @@ html(lang='en')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href="/") Project Name
+          a.navbar-brand(href="#") Project Name
         .navbar-collapse.collapse
           ul.nav.navbar-nav
             if isLogin
               li
-                a.navbar-brand(href='/users/profile/#{user._id}') Profile Page
-                //- a(href='/users/profile/5a264f5cbb06b3346cbbf0aa') Profile Page
+                a.navbar-brand(href='/profile/#{user._id}') Profile Page
             if !isLogin
               li
-                a.site-text(href='/users/register') Register
+                a.site-text(href='/register') Register
               li
-                a.site-text(href='/users/login') Login
+                a.site-text(href='/login') Login
             
           ul.nav.navbar-nav.navbar-right
           if isLogin
            li
-            a(href='/users/logout') Logout
+            a(href='/logout') Logout
     .container
     block content
 

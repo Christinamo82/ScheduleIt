@@ -20,13 +20,15 @@ var async = require('async');
 var nodemailer = require('nodemailer');
 var crypto = require('crypto');
 
+//google apis
+var urlParse = require('url');
+const {google} = require('googleapis');
+
 //added for event calender 
 //connect to the mongoDB
 // var db = require('mongoskin').db("localhost/testdb", { w: 0});
 // db.bind('event');
 
-//source for register and login: https://www.youtube.com/watch?v=hb26tQPmPl4
-//source for reset password: http://sahatyalkabov.com/how-to-implement-password-reset-in-nodejs/
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -119,18 +121,9 @@ function(req, res) {
     });
   }
   else{
-    // console.log('The input username is ' + req.body.username);
-    // console.log('The input password is ' + req.body.password);
-    // req.flash('sucess', 'You are now loggd in');
-    // console.log(req.user._id);
-    var red_userprofile_id = req.user._id
-    console.log(red_userprofile_id);
-    // res.redirect('/users/profile');
-    // res.render('prifle', {user: req.user._id});
-    res.redirect('/users/profile/'+ red_userprofile_id);
+    var userprofile_id = req.user._id
+    res.redirect('/users/profile/'+ userprofile_id);
   }
-    // res.redirect('/');
-
 });
 
 passport.serializeUser(function(user, done) {
@@ -300,12 +293,47 @@ function ensureAuthenticated(req, res, next){
   }
   res.redirect('/users/login');
 }
+
+// // =====google auth2=======
+// var OAuth2 = google.auth.OAuth2;
+// var oauth2Client = new OAuth2(
+//     "934538391359-sh1jeblh0u5nuph6i9it0b2noj5l39l0.apps.googleusercontent.com",
+//     "UOcQZojDvpQmyKutO-wXt6z-",
+//     "http://localhost:3000/oauthcallback"
+//   );
+  
+//   // generate a url that asks permissions for Google+ and Google Calendar scopes
+//   const scopes = [
+//     // 'https://www.googleapis.com/auth/plus.me',
+//     'https://www.googleapis.com/auth/calendar'
+//   ];
+  
+//   const url = oauth2Client.generateAuthUrl({
+//     // 'online' (default) or 'offline' (gets refresh_token)
+//     access_type: 'offline',
+  
+//     // If you only need one scope you can pass it as a string
+//     scope: scopes
+//   });
+
+//   router.get('/url', function(req, res){
+//     console.log("inside get url"); 
+//     res.send(url);
+//   });
+
+//   // router.get('/tokens', function(req, re s){
+
+//   // });
+
+// // ========================
+
+
+
 //user's profile
 router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
   console.log("Inside get profile");
   console.log(req.user._id);
-  User.findById(req.params.id, function(err, found){
-    console.log(req.params);
+  User.findById(req.user._id, function(err, found){
     console.log(req.params.id);
     if(err){
       console.log("did not found user");
@@ -317,15 +345,70 @@ router.get('/profile/:id', ensureAuthenticated, function(req, res, next) {
     // res.redirect('/users/profile/'+ user._id);
     // res.render('profile/:id');
     // console.log(found.username);
-    res.render('profile', {user: found});
+    // if(req.body.googleUrl){
+      console.log("before google auth2 section");
+    // =====google auth2=======
+      var OAuth2 = google.auth.OAuth2;
+      var oauth2Client = new OAuth2(
+        "934538391359-sh1jeblh0u5nuph6i9it0b2noj5l39l0.apps.googleusercontent.com",
+        "UOcQZojDvpQmyKutO-wXt6z-",
+        "http://localhost:3000/oauthcallback"
+      );
+  
+      // generate a url that asks permissions for Google+ and Google Calendar scopes
+      const scopes = [
+        // 'https://www.googleapis.com/auth/plus.me',
+        'https://www.googleapis.com/auth/calendar'
+      ];
+  
+      const url = oauth2Client.generateAuthUrl({
+        // 'online' (default) or 'offline' (gets refresh_token)
+        access_type: 'offline',
+  
+        // If you only need one scope you can pass it as a string
+        scope: scopes
+      });
+      console.log("url is: " + url);
+      
+    // ========get token from the authUrl callback code=========
+      // var url_part = urlParse.parse(url, true);
+      // var code = url_part.query;
+      // console.log("output for the callback query code");
+      // console.log(code);
+      // // const {tokens} = await oauth2Client.getToken(code,function(err){
+      // oauth2Client.getToken(code, function(err, tokens) {
+      //   if (err) {
+      //     console.log("get tokens fail, the error messages:");
+      //     console.log(err);
+      //     return;
+      //   }
+      //   console.log("get tokens!");
+      //   console.log(tokens);
+      //   // oauth2Client.setCredentials(tokens);
+      // });
+    // =========================================================
+
+      res.render('profile',{user: found, authUrl: url});
+// ========================
+    // }
+    // else{
+    // res.render('profile', {user: found});
+    // }
     // res.render('/users/profile');
     //5a1ba8a9529add1f57121d64
   });
   // res.render('profile');
 });
 
-//user's profile update(edit)
+// router.get('/oauthcallback', function(req, res, next){
+//   console.log("Inside get authUrl query code");
 
+//   var code = req.query.code
+//   console.log(code);
+
+// });
+
+//user's profile update(edit)
 router.get('/profile/:id/edit', ensureAuthenticated, function(req,res,next){
   console.log("Inside get profile edit");
   var id = req.user._id;

@@ -93,6 +93,7 @@ a {
 }
 
 .site {
+  /* background-image: url(../uploads/upload_2c63d31f0eddac4bb0a1bc7b0b19036e.jpg); */
   background-image: url(/images/3.jpg);
   /* background image from http://gahag.net/010282-wave-music/ */
   background-size: cover;
