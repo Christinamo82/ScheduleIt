@@ -46,5 +46,8 @@
     "request": "^2.85.0",
     "save": "^2.3.1",
     "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "mocha": "^5.1.1"
   }
 }
