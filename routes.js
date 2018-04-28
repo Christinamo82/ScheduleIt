@@ -27,9 +27,5 @@ module.exports = function(app){
     app.post('/profile/:id/avatar', controllerLogin.ensureAuthenticated, controllerProfile.postProfileImage);
     app.post('/profile/:id', controllerLogin.ensureAuthenticated, controllerProfile.postProfile);
     app.get('/oauthcallback', controllerProfile.getAuthCallback);
-    // app.get('/calendarTest', function(req, res){
-    //     console.log("Inside calendar test check");
-    //     res.render('calendarTest');
-    // });
     // app.post('/oauthcallback', controllerProfile.psotAuthCallback);
 };
